@@ -1,5 +1,7 @@
 # pdf.js
 
+testing!
+
 pdf.js is a technology demonstrator prototype to explore whether the HTML5
 platform is complete enough to faithfully and efficiently render the ISO
 32000-1:2008 Portable Document Format (PDF) without native code assistance.
