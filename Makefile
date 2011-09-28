@@ -175,6 +175,17 @@ extension:
 	@echo "extension created: " $(EXTENSION_NAME)
 
 
+# make master
+#
+# Generates a snapshot reference set
+master:
+	cd test && \
+	python test.py \
+	--masterMode \
+	--noPrompts \
+	--browserManifestFile=$(PDF_BROWSERS)
+
+
 # Make sure there's a build directory.
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
