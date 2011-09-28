@@ -416,8 +416,9 @@ def checkEq(task, results, browser, masterMode):
 
         path = os.path.join(pfx, str(page + 1))
         if not os.access(path, os.R_OK):
-            print 'WARNING: no reference snapshot', path
             State.numEqNoSnapshot += 1
+            if not masterMode:
+                print 'WARNING: no reference snapshot', path
         else:
             f = open(path)
             ref = f.read()
@@ -446,8 +447,9 @@ def checkEq(task, results, browser, masterMode):
             try:
                 os.makedirs(tmpTaskDir)
             except OSError, e:
-                print >>sys.stderr, 'Creating', tmpTaskDir, 'failed!'
-
+                if e.errno != 17: # file exists
+                    print >>sys.stderr, 'Creating', tmpTaskDir, 'failed!'
+        
             of = open(os.path.join(tmpTaskDir, str(page + 1)), 'w')
             of.write(snapshot)
             of.close()
