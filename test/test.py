@@ -11,7 +11,6 @@ DOC_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__),".."))
 
 ANAL = True
 DEFAULT_MANIFEST_FILE = 'test_manifest.json'
-MASTER_MANIFEST_FILE = 'test_manifest_master.json'
 EQLOG_FILE = 'eq.log'
 REFDIR = 'ref'
 TMPDIR = 'tmp'
@@ -43,8 +42,6 @@ class TestOptions(OptionParser):
     def verifyOptions(self, options):
         if options.masterMode and options.manifestFile:
             self.error("--masterMode and --manifestFile must not be specified at the same time.")
-        if options.masterMode:
-            options.manifestFile = MASTER_MANIFEST_FILE
         if not options.manifestFile:
             options.manifestFile = DEFAULT_MANIFEST_FILE
         if options.browser and options.browserManifestFile:
