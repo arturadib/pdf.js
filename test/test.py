@@ -23,6 +23,8 @@ class TestOptions(OptionParser):
         OptionParser.__init__(self, **kwargs)
         self.add_option("-m", "--masterMode", action="store_true", dest="masterMode",
                         help="Run the script in master mode.", default=False)
+        self.add_option("--noPrompts", action="store_true", dest="noPrompts",
+                        help="Uses default answers (intended for CLOUD TESTS only!).", default=False)
         self.add_option("--manifestFile", action="store", type="string", dest="manifestFile",
                         help="A JSON file in the form of test_manifest.json (the default).")
         self.add_option("-b", "--browser", action="store", type="string", dest="browser",
@@ -321,7 +323,7 @@ def setUp(options):
     if options.masterMode and os.path.isdir(TMPDIR):
         print 'Temporary snapshot dir tmp/ is still around.'
         print 'tmp/ can be removed if it has nothing you need.'
-        if prompt('SHOULD THIS SCRIPT REMOVE tmp/?  THINK CAREFULLY'):
+        if options.noPrompts or prompt('SHOULD THIS SCRIPT REMOVE tmp/?  THINK CAREFULLY'):
             subprocess.call(( 'rm', '-rf', 'tmp' ))
 
     assert not os.path.isdir(TMPDIR)
@@ -503,10 +505,10 @@ def maybeUpdateRefImages(options, browser):
             print '  Yes!  The references in tmp/ can be synced with ref/.'
             if options.reftest:                                                                                                              
                 startReftest(browser, options)
-            if not prompt('Would you like to update the master copy in ref/?'):
+            if options.noPrompts or not prompt('Would you like to update the master copy in ref/?'):
                 print '  OK, not updating.'
             else:
-                sys.stdout.write('  Updating ... ')
+                sys.stdout.write('  Updating ref/ ... ')
 
                 # XXX unclear what to do on errors here ...
                 # NB: do *NOT* pass --delete to rsync.  That breaks this
