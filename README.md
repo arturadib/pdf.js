@@ -1,8 +1,6 @@
 # pdf.js
 
 
-asdf 
-
 
 ## Overview
 
